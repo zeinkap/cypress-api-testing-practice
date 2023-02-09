@@ -13,5 +13,9 @@
     "testing"
   ],
   "author": "zeinkap",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^12.5.1",
+    "cypress-plugin-api": "^2.10.3"
+  }
 }
