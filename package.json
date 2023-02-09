@@ -1,0 +1,17 @@
+{
+  "name": "interview-rocket",
+  "version": "1.0.0",
+  "description": "Creating API tests for https://jsonplaceholder.typicode.com using Cypress",
+  "main": "cypress.config.js",
+  "scripts": {
+    "cy:open": "npx cypress open",
+    "cy:run": "npx cypress run --record --key 0d91bb5e-9578-4ded-a712-1b2f9c12b253 --spec cypress/e2e/test.cy.js"
+  },
+  "keywords": [
+    "cypress",
+    "api",
+    "testing"
+  ],
+  "author": "zeinkap",
+  "license": "ISC"
+}
