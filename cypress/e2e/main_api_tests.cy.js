@@ -1,11 +1,3 @@
-/*
-As a Client, I should be able to create a new comment and confirm it was added successfully.
-As a Client, I want the user object for user #2 to match the corresponding user object from the full users list:
-All users endpoint (https://jsonplaceholder.typicode.com/users)
-user endpoint by user id (https://jsonplaceholder.typicode.com/users/2)
-As a Client, when I delete a post, I will receive a 20X response status
-*/
-
 /// <reference types="cypress" />
 
 describe('Jsonplaceholder API test suite', () => {
@@ -38,7 +30,7 @@ describe('Jsonplaceholder API test suite', () => {
         expect(resp.headers).to.have.property('location', 'http://jsonplaceholder.typicode.com/posts/1/comments/501')
         const postId = resp.body.postId
 
-        // verify new comment
+        // verify new comment exists
         cy.api({
           method: "GET", 
           url: "/posts/1/comments",
@@ -54,14 +46,13 @@ describe('Jsonplaceholder API test suite', () => {
   })
 
   it('test user object for user #2 matches the corresponding user object from the full users list', () => {
-    //Get user #2
+    // Get user #2
     cy.api({
       method: "GET",
       url: "/users/2",
     }).then((resp) => {
       expect(resp.status).to.eq(200)
       const userTwoData = resp.body
-      console.log(userTwoData)
 
       // Compare user #2 data to the full users list
       cy.api({
@@ -76,7 +67,7 @@ describe('Jsonplaceholder API test suite', () => {
     })
   })
 
-  it("test when deleting a post, a 200 response status is returned", () => {
+  it.only("test when deleting a post, a 200 response status is returned", () => {
     cy.api({
       method: "DELETE",
       url: "/posts/1",
@@ -84,6 +75,15 @@ describe('Jsonplaceholder API test suite', () => {
     .then((resp) => {
       expect(resp.status).to.eq(200)
       expect(resp.body).to.be.empty
+
+      // verify post deleted
+      cy.api({
+        method: "GET",
+        url: "/posts/1",
+      })
+      .then((resp) => {
+        expect(resp.status).to.eq(200)
+      })
     })
   })
 

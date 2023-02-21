@@ -1,7 +1,7 @@
 {
-  "name": "interview-rocket",
+  "name": "cypress-api-testing-practice",
   "version": "1.0.0",
-  "description": "Creating API tests for https://jsonplaceholder.typicode.com using Cypress",
+  "description": "Creating API tests with Cypress for https://jsonplaceholder.typicode.com",
   "main": "cypress.config.js",
   "scripts": {
     "cy:open": "npx cypress open",
@@ -16,6 +16,7 @@
   "license": "ISC",
   "devDependencies": {
     "cypress": "^12.5.1",
-    "cypress-plugin-api": "^2.10.3"
+    "cypress-plugin-api": "^2.10.3",
+    "mockend": "^1.2.0"
   }
 }
