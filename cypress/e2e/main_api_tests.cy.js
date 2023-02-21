@@ -33,22 +33,25 @@ describe('Jsonplaceholder API test suite', () => {
         // expect(resp.headers).to.have.property('location', 'http://my-json-server.typicode.com/zeinkap/cypress-api-testing-practice/comments/6')
         
         const commentId = resp.body.id
+        console.log(commentId);
 
-        // verify the new comment 
-        // cy.api({
-        //   method: "GET", 
-        //   url: `/comments/${commentId}`,
-        //   // qs: {
-        //   //   commentId
-        //   // }
-        // }).then((resp) => {
-        //   expect(resp.status).to.eq(200)
-        //   expect(resp.body).to.have.property('postId' , '1')
-        //   expect(resp.body).to.have.property('id', 6)
-        //   expect(resp.body).to.have.property('name', 'Zak Test')
-        //   expect(resp.headers).to.have.property('content-type', 'application/json; charset=utf-8')
-        // })
       })
+
+        // verify the added comment 
+        cy.api({
+          method: "GET", 
+          url: `/comments/6`,
+          // qs: {
+          //   commentId
+          // }
+        }).then((resp) => {
+          expect(resp.status).to.eq(200)
+          expect(resp.body).to.have.property('postId' , '1')
+          expect(resp.body).to.have.property('id', 6)
+          expect(resp.body).to.have.property('name', 'Zak Test')
+          expect(resp.headers).to.have.property('content-type', 'application/json; charset=utf-8')
+        })
+      
     })
   })
 
