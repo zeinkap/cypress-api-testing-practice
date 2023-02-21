@@ -6,7 +6,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl: "https://jsonplaceholder.typicode.com",
+    baseUrl: "http://my-json-server.typicode.com/zeinkap/cypress-api-testing-practice",
     viewportWidth: 1400,
     viewportHeight: 1200,
   },

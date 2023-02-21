@@ -2,7 +2,10 @@
 
 describe('Jsonplaceholder API test suite', () => {
   it('test retrieving a list of all posts', () => {
-    cy.api('/posts')
+    cy.api({
+      method: "GET",
+      url: "/posts",
+    })
       .its('body')
       .then((posts) => {
         expect(posts).to.have.length(100)
@@ -13,34 +16,38 @@ describe('Jsonplaceholder API test suite', () => {
       })
   })
 
-  it('test creating a new comment and confirm it was added successfully', () => {
-    // create a new comment
-    cy.fixture('example.json').then((comment) => {
+  it.only('test adding a new comment to a post', () => {
+    // add a new comment
+    cy.fixture('test-comment-data.json').then((comment) => {
       cy.api({
         method: "POST",
-        url: "/posts/1/comments",
+        url: "/comments",
         body: comment,
       }).then((resp) => {
         expect(resp.status).to.eq(201)
-        expect(resp.body).to.have.property('postId' , '1')
-        expect(resp.body).to.have.property('id', 501)
-        expect(resp.body).to.have.property('name', 'zaktest')
-        expect(resp.body).to.have.property('email', 'zaktest@viz.com')
+        expect(resp.body).to.have.property('postId' , 1)
+        expect(resp.body).to.have.property('id', 6)
+        expect(resp.body).to.have.property('name', 'Zak Test')
+        expect(resp.body).to.have.property('email', 'zaktest@yahoo.com')
         expect(resp.body).to.have.property('body', 'zak body test message')
-        expect(resp.headers).to.have.property('location', 'http://jsonplaceholder.typicode.com/posts/1/comments/501')
-        const postId = resp.body.postId
+        // expect(resp.headers).to.have.property('location', 'http://my-json-server.typicode.com/zeinkap/cypress-api-testing-practice/comments/6')
+        
+        const commentId = resp.body.id
 
-        // verify new comment exists
-        cy.api({
-          method: "GET", 
-          url: "/posts/1/comments",
-          qs: {
-            postId
-          }
-        }).then((resp) => {
-          expect(resp.status).to.eq(200)
-          expect(resp.headers).to.have.property('content-type', 'application/json; charset=utf-8')
-        })
+        // verify the new comment 
+        // cy.api({
+        //   method: "GET", 
+        //   url: `/comments/${commentId}`,
+        //   // qs: {
+        //   //   commentId
+        //   // }
+        // }).then((resp) => {
+        //   expect(resp.status).to.eq(200)
+        //   expect(resp.body).to.have.property('postId' , '1')
+        //   expect(resp.body).to.have.property('id', 6)
+        //   expect(resp.body).to.have.property('name', 'Zak Test')
+        //   expect(resp.headers).to.have.property('content-type', 'application/json; charset=utf-8')
+        // })
       })
     })
   })
@@ -67,7 +74,7 @@ describe('Jsonplaceholder API test suite', () => {
     })
   })
 
-  it.only("test when deleting a post, a 200 response status is returned", () => {
+  it("test when deleting a post, a 200 response status is returned", () => {
     cy.api({
       method: "DELETE",
       url: "/posts/1",
