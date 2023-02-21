@@ -5,7 +5,7 @@
   "main": "cypress.config.js",
   "scripts": {
     "cy:open": "npx cypress open",
-    "cy:run": "npx cypress run --record --key 0d91bb5e-9578-4ded-a712-1b2f9c12b253 --spec cypress/e2e/main_api_tests.cy.js"
+    "cy:run": "npx cypress run --record --key 0d91bb5e-9578-4ded-a712-1b2f9c12b253"
   },
   "keywords": [
     "cypress",
