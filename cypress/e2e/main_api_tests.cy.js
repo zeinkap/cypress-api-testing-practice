@@ -1,4 +1,8 @@
 /// <reference types="cypress" />
+/* 
+- NOTE CHANGES ARE ALL FAKED AND NOT PERSISTED
+- Requests are cached (1 minute)
+*/
 
 describe('Jsonplaceholder API test suite', () => {
   it('test retrieving a list of all posts', () => {
@@ -16,8 +20,9 @@ describe('Jsonplaceholder API test suite', () => {
       })
   })
 
-  it.only('test adding a new comment to a post', () => {
+  it('test adding a new comment to a post', () => {
     // add a new comment
+
     cy.fixture('test-comment-data.json').then((comment) => {
       cy.api({
         method: "POST",
@@ -35,23 +40,16 @@ describe('Jsonplaceholder API test suite', () => {
         const commentId = resp.body.id
         console.log(commentId);
 
+        // verify the added comment. Does not return 200 since calls are all faked
+        // cy.api({
+        //   method: "GET", 
+        //   url: `/comments/${commentId}`,
+        // }).then((resp) => {
+        //   expect(resp.status).to.eq(200)
+        //   expect(resp.body).to.have.property('id', 6)
+        //   expect(resp.headers).to.have.property('content-type', 'application/json; charset=utf-8')
+        // })
       })
-
-        // verify the added comment 
-        cy.api({
-          method: "GET", 
-          url: `/comments/6`,
-          // qs: {
-          //   commentId
-          // }
-        }).then((resp) => {
-          expect(resp.status).to.eq(200)
-          expect(resp.body).to.have.property('postId' , '1')
-          expect(resp.body).to.have.property('id', 6)
-          expect(resp.body).to.have.property('name', 'Zak Test')
-          expect(resp.headers).to.have.property('content-type', 'application/json; charset=utf-8')
-        })
-      
     })
   })
 
