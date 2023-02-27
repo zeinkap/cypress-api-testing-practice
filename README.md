@@ -12,5 +12,5 @@ We are using Cypress version 12 and the cypress-plugin-api to display API calls 
 ## Data
 All data (comments, posts and profiles) are stored in the db.json file.
 
-##CI/CD
+## CI/CD
 Integrated with GiHub Actions as part of CI/CD pipeline.
