@@ -78,29 +78,26 @@ describe("Jsonplaceholder API test suite", () => {
   });
 
   it("test adding a new post under the first user", () => {
-    cy.fixture("single-post-data.json").then((post) => {
-      cy.api({
-        method: "POST",
-        url: "/posts",
-        body: post,
-      }).then((resp) => {
-        const respBody = resp.body;
-        expect(resp.status).to.eq(201);
-        expect(resp.duration).to.be.lessThan(500);
-        expect(resp.headers).to.have.property(
-          "location",
-          "http://my-json-server.typicode.com/zeinkap/cypress-api-testing-practice/posts/6"
-        );
-        expect(respBody).to.have.property("userId", 1);
-        expect(respBody).to.have.property("id", 6);
-        expect(respBody).to.have.property(
-          "title",
-          "Ervin Howell's first comment!"
-        );
-        expect(respBody).to.have.property(
-          "body",
-          "Hiya all! This is my first comment in 2023!"
-        );
+    cy.generatePosts().then(() => {
+      cy.fixture("faker-posts").then((post) => {
+        cy.api({
+          method: "POST",
+          url: "/posts",
+          body: post,
+        }).then((resp) => {
+          const respBody = resp.body.posts;
+          // console.log(respBody);
+          expect(resp.status).to.eq(201);
+          expect(resp.duration).to.be.lessThan(500);
+          expect(resp.headers).to.have.property(
+            "location",
+            "http://my-json-server.typicode.com/zeinkap/cypress-api-testing-practice/posts/6"
+          );
+          expect(respBody[0]).to.have.property("userId", post.posts[0].userId);
+          expect(respBody[0]).to.have.property("id", post.posts[0].id);
+          expect(respBody[0]).to.have.property("title", post.posts[0].title);
+          expect(respBody[0]).to.have.property("body", post.posts[0].body);
+        });
       });
     });
 
@@ -110,39 +107,29 @@ describe("Jsonplaceholder API test suite", () => {
       url: "/posts",
     }).then((resp) => {
       expect(resp.status).to.eq(200);
-      // expect(resp.body).to.have.length(6);
     });
   });
 
   it("test adding a new comment to a post", () => {
-    // add a new comment
-    cy.fixture("single-comment-data.json").then((comment) => {
-      cy.api({
-        method: "POST",
-        url: "/comments",
-        body: comment,
-      }).then((resp) => {
-        expect(resp.status).to.eq(201);
-        const comment = resp.body;
-        expect(comment).to.have.property("postId", 1);
-        expect(comment).to.have.property("id", 6);
-        expect(comment).to.have.property("name", "Zak Test");
-        expect(comment).to.have.property("email", "zaktest@yahoo.com");
-        expect(comment).to.have.property("body", "zak body test message");
-        expect(resp.headers).to.have.property(
-          "location",
-          "http://my-json-server.typicode.com/zeinkap/cypress-api-testing-practice/comments/6"
-        );
+    cy.generateSingleComment().then(() => {
+      cy.fixture("faker-comment").then((comment) => {
+        cy.api({
+          method: "POST",
+          url: "/comments",
+          body: comment,
+        }).then((resp) => {
+          expect(resp.status).to.eq(201);
+          expect(resp.body).to.have.property("postId", comment.postId);
+          expect(resp.body).to.have.property("id", comment.id);
+          expect(resp.body).to.have.property("name", comment.name);
+          expect(resp.body).to.have.property("email", comment.email);
+          expect(resp.body).to.have.property("body", comment.body);
+          expect(resp.headers).to.have.property(
+            "location",
+            `http://my-json-server.typicode.com/zeinkap/cypress-api-testing-practice/comments/${comment.id}`
+          );
+        });
       });
-    });
-
-    // verify the added comment. *Will not see the newly added comment since the calls are all faked*
-    cy.api({
-      method: "GET",
-      url: "/comments",
-    }).then((resp) => {
-      expect(resp.status).to.eq(200);
-      // expect(resp.body).to.have.length(6);
     });
   });
 

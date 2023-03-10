@@ -15,6 +15,7 @@
   "author": "zeinkap",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "cypress": "^12.5.1",
     "cypress-plugin-api": "^2.10.3",
     "dotenv": "^16.0.3"

@@ -1,5 +1,7 @@
 cypress/screenshots
 cypress/videos
 cypress/downloads
+cypress/fixures
+
 /node_modules
 .env
